@@ -1,0 +1,52 @@
+<div class="CartBox">
+    <h1 class="text-danger" >Shopping Cart</h1>
+    <div *ngIf="!isDone && products.length">
+    <div class="headCart">
+        <p class="lead">You have <label class="text-danger" >{{products.length}}</label> item(s) in your cart </p>
+        <span class="text-danger card-header" (click)="clearCart()"> Clear Shopping Cart</span>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <th></th>
+            <th>Name</th>
+            <th>Price</th>
+            <th class="w-25" >Quantity</th>
+            <th>Total</th>
+            <th></th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of products">
+                <td>
+                    <img class="" src="{{item.product.image}}" alt="">
+                </td>
+                <td>{{item.product.title}}</td>
+                <td>{{item.product.price | currency}}</td>
+                <td>
+                    <div class="input-group mb-3">
+                        <button class="btn btn-outline-danger" type="button" (click)="decreaseQuantity(item)">-</button>
+                        <input type="number" class="form-control" min="1" max="10" readonly [value]="item.quantity">
+                        <button class="btn btn-outline-success" type="button" (click)="increaseQuantity(item)">+</button>
+                      </div>
+                </td>
+                <td>{{item.product.price*item.quantity | currency}}</td>
+                <td>
+                    <button class="btn btn-danger" (click)="deleteItem(item)" >Remove</button>
+                </td>
+            </tr>
+        </tbody>
+            <tfoot>
+                <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th class="text-danger">Total : {{getTotal()|currency}}</th>
+                <th><button class="btn btn-success" (click)="addCart()">Order Now</button></th>
+            </tfoot>
+    </table>
+</div>
+</div>
+<div *ngIf="isDone" class="alert alert-success" role="alert" ><strong>Well Done!</strong>Your order is Successfully Send!</div>
+<div *ngIf="!products.length && !isDone" class="alert alert-warning" role="alert">
+    <strong>Cart is empty!</strong> <a routerLink="/products" > Continue shopping</a>
+</div>
